@@ -1,7 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Text
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Text, JSON
 from sqlalchemy.orm import relationship
-from pgvector.sqlalchemy import Vector
 from datetime import datetime
 from app.core.database import Base
 
@@ -22,10 +20,10 @@ class Memory(Base):
     title = Column(String)
     file_url = Column(String) # e.g., /static/uploads/images/uuid_filename.jpg
     file_type = Column(String) # image, video, document
-    metadata_json = Column(JSONB)
+    metadata_json = Column(JSON)
     is_public = Column(Boolean, default=False)
     scheduled_release_date = Column(DateTime, nullable=True)
-    embedding = Column(Vector(1536))
+    embedding = Column(Text, nullable=True) # SQLite 임시 호환용 (원래 Vector)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     owner = relationship("User", back_populates="memories")
@@ -36,7 +34,7 @@ class AISummary(Base):
     id = Column(Integer, primary_key=True, index=True)
     memory_id = Column(Integer, ForeignKey("memories.id"))
     summary_text = Column(Text)
-    tags = Column(JSONB)
+    tags = Column(JSON)
     sentiment = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
 

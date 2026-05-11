@@ -8,12 +8,12 @@ from datetime import datetime
 
 router = APIRouter()
 
-@router.post("/upload")
+@router.post("/upload", response_model=MemoryResponse)
 async def upload_memory(
     title: str = Form(...),
     file: UploadFile = File(...),
     is_public: bool = Form(False),
-    # db: Session = Depends(get_db)  # Uncomment when DB is ready
+    db: Session = Depends(get_db)
 ):
     # Save file locally
     file_url, file_type = save_upload_file(file)
@@ -21,10 +21,22 @@ async def upload_memory(
     # Normally user_id would come from auth token
     user_id = 1 
 
-    # Return mock response until auth/DB is fully set up
-    return {
-        "message": "File uploaded successfully",
-        "file_url": file_url,
-        "file_type": file_type,
-        "title": title
-    }
+    # Save to DB
+    new_memory = Memory(
+        user_id=user_id,
+        title=title,
+        file_url=file_url,
+        file_type=file_type,
+        is_public=is_public,
+        created_at=datetime.utcnow()
+    )
+    db.add(new_memory)
+    db.commit()
+    db.refresh(new_memory)
+    
+    return new_memory
+
+@router.get("", response_model=list[MemoryResponse])
+def get_memories(db: Session = Depends(get_db)):
+    memories = db.query(Memory).order_by(Memory.created_at.desc()).all()
+    return memories

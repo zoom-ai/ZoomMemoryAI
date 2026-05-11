@@ -3,8 +3,25 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from app.api import memories
+from app.core.database import engine, SessionLocal
+from app.models import models
+
+# Create database tables
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="ZoomMemoryAI API")
+
+@app.on_event("startup")
+def create_dummy_user():
+    db = SessionLocal()
+    try:
+        user = db.query(models.User).filter(models.User.id == 1).first()
+        if not user:
+            dummy_user = models.User(email="test@example.com", password_hash="dummy")
+            db.add(dummy_user)
+            db.commit()
+    finally:
+        db.close()
 
 app.add_middleware(
     CORSMiddleware,
