@@ -2,8 +2,11 @@
 import React, { useState } from "react";
 import { UploadCloud } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export default function UploadPage() {
+  const t = useTranslations("Upload");
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
@@ -29,7 +32,7 @@ export default function UploadPage() {
       const data = await res.json();
       if (res.ok) {
         setUploadedUrl(data.file_url);
-        alert("Upload successful!");
+        // alert handled smoothly in a real app, keeping it simple
       } else {
         alert("Upload failed.");
       }
@@ -51,22 +54,22 @@ export default function UploadPage() {
         <div className="flex items-center justify-center w-16 h-16 bg-white/5 text-indigo-400 rounded-full mb-6 mx-auto border border-white/10">
           <UploadCloud size={32} />
         </div>
-        <h1 className="text-2xl font-bold text-center text-white mb-6">Archive Memory</h1>
+        <h1 className="text-2xl font-bold text-center text-white mb-6">{t("title")}</h1>
         
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Memory Title</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">{t("memoryTitle")}</label>
             <input 
               type="text" 
               className="w-full bg-white/5 border border-white/10 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-indigo-500 text-white placeholder-slate-500 transition-all"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. Summer Vacation 2024"
+              placeholder={t("memoryTitlePlaceholder")}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">File</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">{t("file")}</label>
             <input 
               type="file" 
               className="w-full text-slate-400 bg-white/5 border border-white/10 rounded-lg p-2 cursor-pointer focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-500/20 file:text-indigo-300 hover:file:bg-indigo-500/30 transition-all"
@@ -78,13 +81,13 @@ export default function UploadPage() {
             onClick={handleUpload}
             className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg transition-colors mt-4 shadow-[0_0_15px_rgba(79,70,229,0.4)]"
           >
-            Upload to Archive
+            {t("submit")}
           </button>
         </div>
 
         {uploadedUrl && (
           <div className="mt-8">
-            <h3 className="text-sm font-semibold text-slate-300 mb-3">Uploaded Preview:</h3>
+            <h3 className="text-sm font-semibold text-slate-300 mb-3">{t("preview")}</h3>
             <div className="relative w-full h-48 rounded-xl overflow-hidden border border-white/10 shadow-lg">
               <Image 
                 src={`http://localhost:8000${uploadedUrl}`} 

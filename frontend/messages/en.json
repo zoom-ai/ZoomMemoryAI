@@ -1,0 +1,26 @@
+{
+  "Navigation": {
+    "gallery": "Gallery",
+    "archive": "Archive",
+    "newMemory": "New Memory"
+  },
+  "Landing": {
+    "beta": "ZoomMemoryAI Beta is now live",
+    "title": "Archive your life in the <br/><span class=\"text-gradient\">Digital Cosmos</span>",
+    "description": "Preserve your precious moments forever. Our AI curates your memories into meaningful exhibitions, creating a timeless sanctuary for your legacy.",
+    "enterGallery": "Enter Gallery",
+    "startArchiving": "Start Archiving"
+  },
+  "Gallery": {
+    "title": "Memory Exhibition",
+    "description": "Curated collections of your digital life."
+  },
+  "Upload": {
+    "title": "Archive Memory",
+    "memoryTitle": "Memory Title",
+    "memoryTitlePlaceholder": "e.g. Summer Vacation 2024",
+    "file": "File",
+    "submit": "Upload to Archive",
+    "preview": "Uploaded Preview:"
+  }
+}

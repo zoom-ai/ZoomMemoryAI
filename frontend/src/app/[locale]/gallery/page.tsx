@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { MapPin, Calendar } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 // Mock data for the gallery
 const mockMemories = [
@@ -13,6 +14,8 @@ const mockMemories = [
 ];
 
 export default function GalleryPage() {
+  const t = useTranslations("Gallery");
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
       <motion.div
@@ -20,8 +23,8 @@ export default function GalleryPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-10"
       >
-        <h1 className="text-3xl font-bold mb-2">Memory Exhibition</h1>
-        <p className="text-slate-400">Curated collections of your digital life.</p>
+        <h1 className="text-3xl font-bold mb-2">{t("title")}</h1>
+        <p className="text-slate-400">{t("description")}</p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[250px]">
