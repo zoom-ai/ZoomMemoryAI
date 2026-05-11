@@ -10,6 +10,13 @@ class MemoryBase(BaseModel):
 class MemoryCreate(MemoryBase):
     pass
 
+class AISummaryResponse(BaseModel):
+    summary_text: str
+    tags: Optional[List[str]] = None
+
+    class Config:
+        from_attributes = True
+
 class MemoryResponse(MemoryBase):
     id: int
     user_id: int
@@ -17,6 +24,7 @@ class MemoryResponse(MemoryBase):
     file_type: str
     metadata_json: Optional[Dict[str, Any]] = None
     created_at: datetime
+    ai_summary: Optional[AISummaryResponse] = None
 
     class Config:
         from_attributes = True

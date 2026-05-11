@@ -10,6 +10,10 @@ interface Memory {
   file_type: string;
   file_url: string;
   created_at: string;
+  ai_summary?: {
+    summary_text: string;
+    tags: string[];
+  };
 }
 
 export default function GalleryPage() {
@@ -72,10 +76,24 @@ export default function GalleryPage() {
                   autoPlay muted loop playsInline
                 />
               ) : (
-                <div className="absolute inset-0 bg-slate-800 flex items-center justify-center text-slate-400 font-medium">Document</div>
+                <div className="absolute inset-0 bg-slate-900/80 p-6 flex flex-col justify-start overflow-hidden">
+                  <div className="text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-2">Document Summary</div>
+                  <p className="text-sm text-slate-300 leading-relaxed line-clamp-4">
+                    {memory.ai_summary ? memory.ai_summary.summary_text : "Summarizing in background..."}
+                  </p>
+                  {memory.ai_summary && memory.ai_summary.tags && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {memory.ai_summary.tags.map(tag => (
+                        <span key={tag} className="px-2 py-1 bg-indigo-500/20 text-indigo-300 text-[10px] rounded-full border border-indigo-500/30">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )}
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
               
               {/* Content */}
               <div className="absolute bottom-0 left-0 p-6 w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
