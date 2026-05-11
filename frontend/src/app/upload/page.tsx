@@ -85,6 +85,7 @@ export default function UploadPage() {
                 alt={title} 
                 fill 
                 className="object-cover"
+                unoptimized={true}
               />
             </div>
             <p className="text-xs text-slate-500 mt-2 truncate">http://localhost:8000{uploadedUrl}</p>
