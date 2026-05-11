@@ -7,16 +7,19 @@ ZoomMemoryAI is a full-stack digital memorial service designed to permanently ar
 ## 🛠 Technology Stack
 
 ### Frontend
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS v4, Glassmorphism UI
+- **Animations**: Framer Motion
+- **i18n**: next-intl (English/Korean)
 - **Icons**: Lucide-react
 
 ### Backend
 - **Framework**: FastAPI (Python)
 - **ORM**: SQLAlchemy
-- **Database**: PostgreSQL
-- **Vector DB**: `pgvector` extension (for AI curation & semantic search)
+- **Database**: SQLite (Temporarily configured for local ease-of-use), PostgreSQL Ready
+- **AI**: Google Gemini API (Document Summarization)
+- **Text Extraction**: pdfplumber
 - **Data Validation**: Pydantic
 
 ---
@@ -65,7 +68,7 @@ pip install -r requirements.txt
 # Run the server (http://localhost:8000)
 uvicorn app.main:app --reload
 ```
-> **Note**: To connect to the database, you must update the PostgreSQL URL in `app/core/database.py` according to your local setup. Ensure the `pgvector` extension is installed in your PostgreSQL database.
+> **Note**: You must provide a valid `GEMINI_API_KEY` in `backend/.env` for the AI summarization features to work. The system currently uses SQLite for local testing, so no database installation is required out-of-the-box.
 
 ### 2. Frontend Setup (Next.js)
 
@@ -84,8 +87,12 @@ Open your browser and navigate to `http://localhost:3000/upload`. Try uploading 
 
 ---
 
-## 🧠 Key Features (Planned)
-- **Metadata Extraction**: Automatically extract EXIF data (location/date) from photos and properties from documents upon upload.
-- **Asynchronous AI Summarization**: Analyze and summarize images/documents using LLMs via background tasks.
-- **Embedding & Curation**: Leverage `pgvector` to store vector values of records in the DB, enabling similarity-based automatic exhibition generation.
+## 🧠 Key Features
+- **Premium UI & i18n**: Dark mode glassmorphism UI with fully integrated English and Korean support.
+- **Asynchronous AI Summarization**: Automatically extracts text from uploaded PDF/TXT documents and generates a concise summary with relevant hashtags using the Gemini API via background tasks.
+- **Dynamic Gallery Exhibition**: A Pinterest-style Bento Grid gallery that renders uploaded images, autoplaying videos, and AI-summarized document cards interactively.
+
+## 🚀 Upcoming Features (Planned)
+- **Metadata Extraction**: Automatically extract EXIF data (location/date) from photos.
+- **Embedding & Curation**: Leverage `pgvector` (upon migration to PostgreSQL) to store vector values of records, enabling semantic search and similarity-based automatic exhibition generation.
 - **Privacy Controls**: Manage the visibility of lifetime and afterlife records through `is_public` and `scheduled_release_date` flags.
